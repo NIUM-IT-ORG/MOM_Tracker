@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '10'
+
+jobs:
+  # Fast feedback. Nothing here needs a database.
+  static:
+    name: Lint, types, unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @mom/shared build
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test:unit
+
+  # Migrations must apply cleanly to an empty database on every commit, and the
+  # two database-level invariants must still hold afterwards. A migration that
+  # only works on the developer's machine is a broken build.
+  database:
+    name: Migrate, seed, invariants, API tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ucf
+          POSTGRES_PASSWORD: ucf_ci
+          POSTGRES_DB: mom_tracker
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U ucf -d mom_tracker"
+          --health-interval 5s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgresql://ucf:ucf_ci@localhost:5432/mom_tracker?schema=public
+      JWT_ACCESS_SECRET: ci_access_secret_not_a_real_key
+      JWT_REFRESH_SECRET: ci_refresh_secret_not_a_real_key
+      QUEUE_DRIVER: memory
+      STORAGE_DRIVER: local
+      EMAIL_PROVIDER: console
+      WHATSAPP_PROVIDER: console
+      APP_TZ: Asia/Kolkata
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @mom/shared build
+
+      - name: Apply migrations to an empty database
+        run: pnpm db:deploy
+
+      - name: Seed the prototype dataset
+        run: pnpm db:seed
+
+      # Append-only audit, and the action/clarification column split. These are
+      # database guarantees, so they are checked against a database.
+      - name: Assert the database invariants
+        run: pnpm assert:invariants
+
+      # The seed must produce exactly the figures the prototype shows, or the
+      # two stop being comparable and every screen review becomes guesswork.
+      - name: Assert the seed matches the prototype
+        run: pnpm assert:seed
+
+      - run: pnpm test:api
+
+  build:
+    name: Build both applications
+    runs-on: ubuntu-latest
+    needs: [static]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+  # Playwright arrives with Phase 7 (P7-04). The job is left commented rather
+  # than absent so the pipeline shape does not change late in the project.
+  #
+  # e2e:
+  #   name: Playwright E2E
+  #   runs-on: ubuntu-latest
+  #   needs: [database, build]

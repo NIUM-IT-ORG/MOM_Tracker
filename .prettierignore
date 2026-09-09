@@ -1,0 +1,5 @@
+prototype/
+docs/
+pnpm-lock.yaml
+**/dist
+**/.next

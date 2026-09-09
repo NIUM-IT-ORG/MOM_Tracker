@@ -1,0 +1,621 @@
+// UCF Meeting & Action Item Tracker — database schema
+// Generated from docs/02-DATA-MODEL.md. Change the doc and this file together.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────── enums ───────────────────────────────
+
+enum MeetingType {
+  INSTANT
+  SCHEDULED
+}
+
+enum MeetingCategory {
+  WEEKLY_PROGRESS_REVIEW
+  REVIEW_WITH_FINANCIER
+  STEERING_COMMITTEE
+  TECHNICAL_COORDINATION
+}
+
+/// Scheduled: PLANNED→AGENDA→INVITEES→INVITEE_INPUTS→CONFIRMED→HELD→MINUTED→CLOSED
+/// Instant:   COMPOSED→LIVE→HELD→MINUTED→CLOSED
+enum MeetingStage {
+  PLANNED
+  AGENDA
+  INVITEES
+  INVITEE_INPUTS
+  CONFIRMED
+  COMPOSED
+  LIVE
+  HELD
+  MINUTED
+  CLOSED
+  CANCELLED
+}
+
+enum MomState {
+  NOT_GENERATED
+  DRAFT
+  SUBMITTED
+  RETURNED
+  APPROVED
+  SIGNED
+}
+
+enum AttendanceMark {
+  PRESENT
+  VIRTUAL
+  ABSENT
+}
+
+enum RsvpResponse {
+  ACCEPTED
+  TENTATIVE
+  DECLINED
+}
+
+enum ItemType {
+  ACTION
+  CLARIFICATION
+}
+
+/// Actions only.
+enum ActionStatus {
+  IN_PROGRESS
+  DELAYED
+  UNDER_REVIEW
+  COMPLETED
+}
+
+/// Clarifications only — deliberately a separate ladder.
+enum ClarificationStatus {
+  OPEN
+  RESPONDED
+  CLOSED
+}
+
+enum Priority {
+  VERY_HIGH
+  HIGH
+  MEDIUM
+  LOW
+  LOWER
+}
+
+enum ProjectStatus {
+  PLANNING
+  PROCUREMENT
+  UNDER_EXECUTION
+  COMPLETED
+  ON_HOLD
+}
+
+enum DocumentType {
+  SANCTION_ORDER
+  DPR
+  AGREEMENT
+  PROGRESS_REPORT
+  SITE_PHOTO
+  SIGNED_MOM
+  CORRESPONDENCE
+  OTHER
+}
+
+enum DocumentScope {
+  PROJECT
+  MEETING
+  ITEM
+}
+
+enum Channel {
+  EMAIL
+  WHATSAPP
+  IN_APP
+}
+
+enum DispatchState {
+  QUEUED
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+enum AccountState {
+  ACTIVE
+  SUSPENDED
+  INVITE_ONLY
+}
+
+// ───────────────────────────── master data ─────────────────────────────
+
+/// A designation is the unit of capability. Capabilities are attached here,
+/// never to an individual user. See docs/04-RBAC.md.
+model Designation {
+  id        String   @id @default(cuid())
+  code      String   @unique // MD, AMD, CDMA, PD, PDMC, MC, ULB, SYS, EXT
+  name      String
+  band      String
+  caps      String[] // capability keys — see packages/shared/src/capabilities.ts
+  isSystem  Boolean  @default(false) // system rows cannot be deleted
+  retiredAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     User[]
+
+  @@map("designations")
+}
+
+model Department {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  retiredAt DateTime? // in use ⇒ retire, never delete
+  createdAt DateTime  @default(now())
+  users     User[]
+
+  @@map("departments")
+}
+
+model Ulb {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String
+  wards     Int?
+  nodalName String?  @map("nodal_name")
+  contact   String?
+  projectId String   @map("project_id")
+  isLead    Boolean  @default(false) @map("is_lead")
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+  @@map("ulbs")
+}
+
+// ─────────────────────────────── people ───────────────────────────────
+
+model User {
+  id            String       @id @default(cuid())
+  name          String
+  initials      String       @db.VarChar(3)
+  email         String       @unique
+  mobile        String // E.164, used for WhatsApp
+  passwordHash  String?      @map("password_hash") // null for INVITE_ONLY
+  designationId String       @map("designation_id")
+  departmentId  String       @map("department_id")
+  seesAllProjects Boolean    @default(false) @map("sees_all_projects")
+  accountState  AccountState @default(ACTIVE) @map("account_state")
+  lastLoginAt   DateTime?    @map("last_login_at")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  designation   Designation      @relation(fields: [designationId], references: [id])
+  department    Department       @relation(fields: [departmentId], references: [id])
+  projects      ProjectMember[]
+  invitations   MeetingInvitee[]
+  ownedItems    ItemOwner[]
+  raisedItems   Item[]           @relation("ItemRaisedBy")
+  respondedItems Item[]          @relation("ItemRespondedBy")
+  chairedMeetings Meeting[]      @relation("MeetingChair")
+  createdMeetings Meeting[]      @relation("MeetingCreatedBy")
+  auditEntries  AuditEntry[]
+  notifications Notification[]
+
+  @@index([designationId])
+  @@index([departmentId])
+  @@map("users")
+}
+
+/// The second half of the access rule: which projects a user can see.
+/// A user with seesAllProjects = true needs no rows here.
+model ProjectMember {
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  projectId     String   @map("project_id")
+  roleOnProject String   @map("role_on_project") // free text, e.g. "Site engineer"
+  createdAt     DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, projectId])
+  @@index([projectId])
+  @@map("project_members")
+}
+
+// ────────────────────────────── projects ──────────────────────────────
+
+model Project {
+  id                String        @id @default(cuid())
+  code              String        @unique // P1, P2, P3 — used in meeting codes
+  name              String
+  fullName          String        @map("full_name")
+  description       String?
+  status            ProjectStatus @default(PLANNING)
+  implementingAgency String?      @map("implementing_agency")
+  costCr            Decimal       @map("cost_cr")        @db.Decimal(14, 2)
+  debtSanctionedCr  Decimal       @map("debt_sanctioned_cr") @db.Decimal(14, 2)
+  debtDrawnCr       Decimal       @map("debt_drawn_cr")  @db.Decimal(14, 2)
+  startDate         DateTime?     @map("start_date") @db.Date
+  targetEndDate     DateTime?     @map("target_end_date") @db.Date
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  ulbs      Ulb[]
+  members   ProjectMember[]
+  meetings  MeetingProject[]
+  items     Item[]
+  documents Document[]
+
+  @@map("projects")
+}
+
+// ────────────────────────────── meetings ──────────────────────────────
+
+model Meeting {
+  id           String          @id @default(cuid())
+  /// UCF/<scope>/<RM|IM>-nn — scope is the project code, or HO for multi-project
+  code         String          @unique
+  type         MeetingType
+  category     MeetingCategory
+  title        String
+  meetingDate  DateTime        @map("meeting_date") @db.Date
+  startTime    String          @map("start_time") @db.VarChar(5) // HH:mm
+  endTime      String          @map("end_time")   @db.VarChar(5)
+  venue        String
+  vcLink       String?         @map("vc_link")
+  chairId      String          @map("chair_id")
+  createdById  String          @map("created_by_id")
+  stage        MeetingStage
+  /// After this instant, invitees may read the agenda but not add to it.
+  agendaFreezeAt DateTime?     @map("agenda_freeze_at")
+  confirmedById  String?       @map("confirmed_by_id")
+  confirmedAt    DateTime?     @map("confirmed_at")
+  cancelledReason String?      @map("cancelled_reason")
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  chair     User @relation("MeetingChair", fields: [chairId], references: [id])
+  createdBy User @relation("MeetingCreatedBy", fields: [createdById], references: [id])
+
+  projects   MeetingProject[]
+  agenda     AgendaItem[]
+  invitees   MeetingInvitee[]
+  minutes    Minutes?
+  mom        Mom?
+  items      Item[]
+  documents  Document[]
+
+  @@index([meetingDate])
+  @@index([stage])
+  @@map("meetings")
+}
+
+model MeetingProject {
+  meetingId String  @map("meeting_id")
+  projectId String  @map("project_id")
+  meeting   Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@id([meetingId, projectId])
+  @@map("meeting_projects")
+}
+
+model AgendaItem {
+  id          String   @id @default(cuid())
+  meetingId   String   @map("meeting_id")
+  ordinal     Int // 0 is reserved for the carry-forward block
+  text        String
+  projectId   String?  @map("project_id")
+  addedById   String   @map("added_by_id")
+  /// true for the auto-generated "review of previous items" block; undeletable
+  isCarryBlock Boolean @default(false) @map("is_carry_block")
+  isDeferred  Boolean  @default(false) @map("is_deferred")
+  createdAt   DateTime @default(now())
+
+  meeting     Meeting        @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  carriedItems AgendaCarry[]
+  documents   Document[]
+
+  @@index([meetingId])
+  @@map("agenda_items")
+}
+
+/// Which open items were pulled into a meeting's agenda item 0.
+model AgendaCarry {
+  agendaItemId String     @map("agenda_item_id")
+  itemId       String     @map("item_id")
+  revisedDue   DateTime?  @map("revised_due") @db.Date
+  agendaItem   AgendaItem @relation(fields: [agendaItemId], references: [id], onDelete: Cascade)
+  item         Item       @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@id([agendaItemId, itemId])
+  @@map("agenda_carries")
+}
+
+model MeetingInvitee {
+  id         String          @id @default(cuid())
+  meetingId  String          @map("meeting_id")
+  userId     String          @map("user_id")
+  rsvp       RsvpResponse?
+  attendance AttendanceMark?
+  isWalkIn   Boolean         @default(false) @map("is_walk_in")
+  createdAt  DateTime        @default(now())
+
+  meeting Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([meetingId, userId])
+  @@index([userId])
+  @@map("meeting_invitees")
+}
+
+// ─────────────────────────── minutes and MoM ───────────────────────────
+
+model Minutes {
+  id          String   @id @default(cuid())
+  meetingId   String   @unique @map("meeting_id")
+  bodyHtml    String   @map("body_html") // sanitised on write — see docs/05
+  lockedAt    DateTime? @map("locked_at") // set when the MoM is submitted
+  updatedById String   @map("updated_by_id")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  meeting  Meeting          @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  versions MinutesVersion[]
+
+  @@map("minutes")
+}
+
+model MinutesVersion {
+  id         String   @id @default(cuid())
+  minutesId  String   @map("minutes_id")
+  version    Int
+  bodyHtml   String   @map("body_html")
+  savedById  String   @map("saved_by_id")
+  createdAt  DateTime @default(now())
+
+  minutes Minutes @relation(fields: [minutesId], references: [id], onDelete: Cascade)
+
+  @@unique([minutesId, version])
+  @@map("minutes_versions")
+}
+
+model Mom {
+  id             String    @id @default(cuid())
+  meetingId      String    @unique @map("meeting_id")
+  state          MomState  @default(NOT_GENERATED)
+  version        Int       @default(1)
+  draftFileId    String?   @map("draft_file_id")
+  signedFileId   String?   @map("signed_file_id")
+  submittedById  String?   @map("submitted_by_id")
+  submittedAt    DateTime? @map("submitted_at")
+  decidedById    String?   @map("decided_by_id")
+  decidedAt      DateTime? @map("decided_at")
+  decisionRemark String?   @map("decision_remark")
+  signedUploadedById String? @map("signed_uploaded_by_id")
+  signedUploadedAt   DateTime? @map("signed_uploaded_at")
+  circulatedAt   DateTime? @map("circulated_at")
+  /// A corrigendum points at the MoM it corrects. Circulated MoMs are immutable.
+  correctsMomId  String?   @map("corrects_mom_id")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  meeting Meeting     @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  history MomHistory[]
+
+  @@index([state])
+  @@map("moms")
+}
+
+model MomHistory {
+  id        String   @id @default(cuid())
+  momId     String   @map("mom_id")
+  event     String // GENERATED | SUBMITTED | RETURNED | APPROVED | SIGNED | CIRCULATED
+  version   Int
+  actorId   String   @map("actor_id")
+  remark    String?
+  createdAt DateTime @default(now())
+
+  mom Mom @relation(fields: [momId], references: [id], onDelete: Cascade)
+
+  @@index([momId])
+  @@map("mom_history")
+}
+
+// ──────────────────── actions and clarifications ────────────────────
+
+/// One table, two shapes. `type` decides which columns are meaningful:
+///   ACTION        → owners[], dueDate, priority, actionStatus
+///   CLARIFICATION → respondedById, clarificationStatus
+/// Enforced by a DB check constraint added in the first migration.
+model Item {
+  id        String   @id @default(cuid())
+  ref       String   @unique // ACT-nn / CLA-nn, issued per type
+  type      ItemType
+  meetingId String   @map("meeting_id")
+  projectId String   @map("project_id")
+  agendaItemId String? @map("agenda_item_id") // which agenda point it came from
+
+  description String
+  raisedById  String  @map("raised_by_id")
+  remarks     String?
+
+  // action-only
+  dueDate      DateTime?     @map("due_date") @db.Date
+  originalDue  DateTime?     @map("original_due") @db.Date
+  priority     Priority?
+  actionStatus ActionStatus?
+
+  // clarification-only
+  respondedById       String?              @map("responded_by_id")
+  clarificationStatus ClarificationStatus?
+
+  /// Inert until the signed MoM is circulated. See docs/05-WORKFLOWS.md.
+  activatedAt DateTime? @map("activated_at")
+  closedAt    DateTime? @map("closed_at")
+  carryCount  Int       @default(0) @map("carry_count")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  meeting     Meeting       @relation(fields: [meetingId], references: [id])
+  project     Project       @relation(fields: [projectId], references: [id])
+  raisedBy    User          @relation("ItemRaisedBy", fields: [raisedById], references: [id])
+  respondedBy User?         @relation("ItemRespondedBy", fields: [respondedById], references: [id])
+  owners      ItemOwner[]
+  updates     ItemUpdate[]
+  carriedInto AgendaCarry[]
+  documents   Document[]
+
+  @@index([meetingId])
+  @@index([projectId])
+  @@index([actionStatus])
+  @@index([clarificationStatus])
+  @@index([dueDate])
+  @@map("items")
+}
+
+/// Joint ownership: every row is equally accountable. There is no "primary".
+model ItemOwner {
+  itemId String @map("item_id")
+  userId String @map("user_id")
+  item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@id([itemId, userId])
+  @@index([userId])
+  @@map("item_owners")
+}
+
+model ItemUpdate {
+  id          String   @id @default(cuid())
+  itemId      String   @map("item_id")
+  actorId     String   @map("actor_id")
+  fromStatus  String?  @map("from_status")
+  toStatus    String?  @map("to_status")
+  note        String?
+  evidenceFileId String? @map("evidence_file_id")
+  createdAt   DateTime @default(now())
+
+  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@index([itemId])
+  @@map("item_updates")
+}
+
+// ─────────────────────────── files & documents ───────────────────────────
+
+model StoredFile {
+  id          String   @id @default(cuid())
+  objectKey   String   @unique @map("object_key")
+  fileName    String   @map("file_name")
+  mimeType    String   @map("mime_type")
+  sizeBytes   Int      @map("size_bytes")
+  sha256      String
+  uploadedById String  @map("uploaded_by_id")
+  createdAt   DateTime @default(now())
+
+  documents Document[]
+
+  @@map("stored_files")
+}
+
+/// Both a name and a file are mandatory — enforced by NOT NULL here and by
+/// the DTO. A file without a name makes a repository unusable within a year.
+model Document {
+  id        String        @id @default(cuid())
+  scope     DocumentScope
+  name      String
+  type      DocumentType
+  fileId    String        @map("file_id")
+  remarks   String?
+  projectId String?       @map("project_id")
+  meetingId String?       @map("meeting_id")
+  itemId    String?       @map("item_id")
+  agendaItemId String?    @map("agenda_item_id")
+  uploadedById String     @map("uploaded_by_id")
+  createdAt DateTime      @default(now())
+
+  file       StoredFile  @relation(fields: [fileId], references: [id])
+  project    Project?    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  meeting    Meeting?    @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  item       Item?       @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  agendaItem AgendaItem? @relation(fields: [agendaItemId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([meetingId])
+  @@map("documents")
+}
+
+// ───────────────────────── notifications & audit ─────────────────────────
+
+/// One row per notification event, automatic or manually shared.
+model Notification {
+  id         String   @id @default(cuid())
+  eventCode  String   @map("event_code") // MTG-01, ACT-04, MANUAL … see docs/06
+  subjectType String  @map("subject_type") // MEETING | MOM | ITEM | PROJECT | REPORT
+  subjectId  String   @map("subject_id")
+  subjectRef String   @map("subject_ref") // human reference, e.g. UCF/P1/RM-04
+  templateKey String  @map("template_key")
+  payload    Json
+  triggeredById String? @map("triggered_by_id") // null = system
+  createdAt  DateTime @default(now())
+
+  triggeredBy User?      @relation(fields: [triggeredById], references: [id])
+  dispatches  Dispatch[]
+
+  @@index([subjectType, subjectId])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+/// One row per recipient per channel. This is the delivery record.
+model Dispatch {
+  id             String        @id @default(cuid())
+  notificationId String        @map("notification_id")
+  recipientId    String?       @map("recipient_id") // null for external addresses
+  address        String // email address or E.164 number
+  channel        Channel
+  state          DispatchState @default(QUEUED)
+  providerMsgId  String?       @map("provider_msg_id")
+  attempts       Int           @default(0)
+  lastError      String?       @map("last_error")
+  sentAt         DateTime?     @map("sent_at")
+  deliveredAt    DateTime?     @map("delivered_at")
+  readAt         DateTime?     @map("read_at")
+
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+
+  @@index([notificationId])
+  @@index([state])
+  @@map("dispatches")
+}
+
+/// Append-only. No update, no delete — enforced by a DB rule in the migration.
+model AuditEntry {
+  id         String   @id @default(cuid())
+  actorId    String?  @map("actor_id") // null = system
+  objectType String   @map("object_type")
+  objectId   String   @map("object_id")
+  objectRef  String   @map("object_ref")
+  event      String
+  detail     String?
+  before     Json?
+  after      Json?
+  ipAddress  String?  @map("ip_address")
+  createdAt  DateTime @default(now())
+
+  actor User? @relation(fields: [actorId], references: [id])
+
+  @@index([objectType, objectId])
+  @@index([createdAt])
+  @@map("audit_entries")
+}

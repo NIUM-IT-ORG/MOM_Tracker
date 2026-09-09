@@ -1,0 +1,52 @@
+{
+  "name": "mom-tracker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "UCF Meeting & Action Item Tracker",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.28.0",
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,magenta \"pnpm --filter @mom/api dev\" \"pnpm --filter @mom/web dev\"",
+    "build": "pnpm --filter @mom/shared build && pnpm --filter @mom/api build && pnpm --filter @mom/web build",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm test:unit && pnpm test:api",
+    "test:unit": "pnpm --filter @mom/shared test",
+    "test:api": "pnpm --filter @mom/api test",
+    "prisma": "prisma",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:seed": "tsx prisma/seed.ts",
+    "assert:invariants": "tsx scripts/assert-invariants.ts",
+    "assert:seed": "tsx scripts/assert-seed.ts",
+    "db:reset": "prisma migrate reset --force",
+    "db:studio": "prisma studio",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@types/node": "^22.9.0",
+    "@types/pg": "^8.11.10",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "prisma": "^5.22.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.15.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "dotenv": "^16.4.5",
+    "pg": "^8.13.1"
+  }
+}

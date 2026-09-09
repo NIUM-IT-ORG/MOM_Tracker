@@ -1,0 +1,1743 @@
+{
+ "TODAY": "2026-09-01",
+ "CAPS": [
+  [
+   "plan_instant",
+   "Create an instant meeting"
+  ],
+  [
+   "plan_scheduled",
+   "Plan a scheduled meeting"
+  ],
+  [
+   "add_agenda",
+   "Add agenda points"
+  ],
+  [
+   "confirm_meeting",
+   "Confirm a scheduled meeting"
+  ],
+  [
+   "mark_attendance",
+   "Mark attendance"
+  ],
+  [
+   "record_minutes",
+   "Record minutes"
+  ],
+  [
+   "create_items",
+   "Create actions & clarifications"
+  ],
+  [
+   "update_own_item",
+   "Update an item assigned to me"
+  ],
+  [
+   "respond_clarification",
+   "Respond to a clarification"
+  ],
+  [
+   "confirm_completion",
+   "Confirm an item as completed"
+  ],
+  [
+   "approve_mom",
+   "Approve the MoM"
+  ],
+  [
+   "upload_signed",
+   "Upload the signed MoM"
+  ],
+  [
+   "manage_project_docs",
+   "Add project documents"
+  ],
+  [
+   "manage_masters",
+   "Manage master data"
+  ],
+  [
+   "manage_access",
+   "Manage access control"
+  ],
+  [
+   "view_all_projects",
+   "See every project"
+  ]
+ ],
+ "DESIGNATIONS": [
+  {
+   "id": "MD",
+   "name": "Mission Director",
+   "band": "Executive leadership",
+   "caps": [
+    "add_agenda",
+    "confirm_completion",
+    "approve_mom",
+    "view_all_projects"
+   ]
+  },
+  {
+   "id": "AMD",
+   "name": "Additional Mission Director",
+   "band": "Executive leadership",
+   "caps": [
+    "add_agenda",
+    "confirm_completion",
+    "approve_mom",
+    "view_all_projects"
+   ]
+  },
+  {
+   "id": "CDMA",
+   "name": "CDMA",
+   "band": "Executive leadership",
+   "caps": [
+    "view_all_projects"
+   ]
+  },
+  {
+   "id": "PD",
+   "name": "Project Director",
+   "band": "Project management",
+   "caps": [
+    "add_agenda",
+    "record_minutes",
+    "create_items",
+    "update_own_item",
+    "respond_clarification",
+    "confirm_completion",
+    "manage_project_docs"
+   ]
+  },
+  {
+   "id": "PDMC",
+   "name": "PDMC",
+   "band": "Project management",
+   "caps": [
+    "plan_instant",
+    "plan_scheduled",
+    "add_agenda",
+    "confirm_meeting",
+    "mark_attendance",
+    "record_minutes",
+    "create_items",
+    "update_own_item",
+    "respond_clarification",
+    "confirm_completion",
+    "upload_signed",
+    "manage_project_docs",
+    "view_all_projects"
+   ]
+  },
+  {
+   "id": "MC",
+   "name": "Meeting Coordinator",
+   "band": "Coordination",
+   "caps": [
+    "plan_instant",
+    "plan_scheduled",
+    "add_agenda",
+    "confirm_meeting",
+    "mark_attendance",
+    "record_minutes",
+    "create_items",
+    "update_own_item",
+    "respond_clarification",
+    "upload_signed",
+    "manage_project_docs"
+   ]
+  },
+  {
+   "id": "ULB",
+   "name": "ULB Nodal Officer",
+   "band": "Field execution",
+   "caps": [
+    "add_agenda",
+    "update_own_item",
+    "respond_clarification"
+   ]
+  },
+  {
+   "id": "SYS",
+   "name": "System Administrator",
+   "band": "System",
+   "caps": [
+    "manage_masters",
+    "manage_access",
+    "view_all_projects"
+   ]
+  },
+  {
+   "id": "EXT",
+   "name": "External invitee",
+   "band": "External",
+   "caps": []
+  }
+ ],
+ "DEPARTMENTS": [
+  "UCF Head Office",
+  "PDMC",
+  "NIUM",
+  "TUFIDC",
+  "CDMA – EAP section",
+  "ULB Nodal Officers",
+  "Bankers",
+  "Agency 1",
+  "Agency 2",
+  "Agency 3",
+  "Corporation 1",
+  "Corporation 2"
+ ],
+ "USERS": [
+  {
+   "id": "u1",
+   "name": "Officer A",
+   "av": "OA",
+   "c": "#BF3B2B",
+   "dg": "MD",
+   "dept": "UCF Head Office",
+   "prj": "ALL",
+   "mob": "+91 9XXXX XX010",
+   "login": true
+  },
+  {
+   "id": "u2",
+   "name": "Officer B",
+   "av": "OB",
+   "c": "#BF3B2B",
+   "dg": "AMD",
+   "dept": "UCF Head Office",
+   "prj": "ALL",
+   "mob": "+91 9XXXX XX011",
+   "login": true
+  },
+  {
+   "id": "u3",
+   "name": "Officer C",
+   "av": "OC",
+   "c": "#D9772B",
+   "dg": "PDMC",
+   "dept": "PDMC",
+   "prj": "ALL",
+   "mob": "+91 9XXXX XX012",
+   "login": true
+  },
+  {
+   "id": "u4",
+   "name": "Officer D",
+   "av": "OD",
+   "c": "#2E5FA3",
+   "dg": "MC",
+   "dept": "NIUM",
+   "prj": [
+    "P1"
+   ],
+   "mob": "+91 9XXXX XX013",
+   "login": true
+  },
+  {
+   "id": "u5",
+   "name": "Officer E",
+   "av": "OE",
+   "c": "#2E5FA3",
+   "dg": "MC",
+   "dept": "TUFIDC",
+   "prj": [
+    "P2"
+   ],
+   "mob": "+91 9XXXX XX014",
+   "login": true
+  },
+  {
+   "id": "u6",
+   "name": "Officer F",
+   "av": "OF",
+   "c": "#2E5FA3",
+   "dg": "MC",
+   "dept": "CDMA – EAP section",
+   "prj": [
+    "P3"
+   ],
+   "mob": "+91 9XXXX XX015",
+   "login": true
+  },
+  {
+   "id": "u7",
+   "name": "Officer G",
+   "av": "OG",
+   "c": "#B2427A",
+   "dg": "PD",
+   "dept": "PDMC",
+   "prj": [
+    "P1",
+    "P2"
+   ],
+   "mob": "+91 9XXXX XX016",
+   "login": true
+  },
+  {
+   "id": "u8",
+   "name": "Officer H",
+   "av": "OH",
+   "c": "#7D3C98",
+   "dg": "ULB",
+   "dept": "Agency 1",
+   "prj": [
+    "P1"
+   ],
+   "mob": "+91 9XXXX XX017",
+   "login": true
+  },
+  {
+   "id": "u9",
+   "name": "Officer I",
+   "av": "OI",
+   "c": "#7D3C98",
+   "dg": "ULB",
+   "dept": "Agency 2",
+   "prj": [
+    "P2"
+   ],
+   "mob": "+91 9XXXX XX018",
+   "login": true
+  },
+  {
+   "id": "u10",
+   "name": "Officer J",
+   "av": "OJ",
+   "c": "#7D3C98",
+   "dg": "ULB",
+   "dept": "Agency 3",
+   "prj": [
+    "P3"
+   ],
+   "mob": "+91 9XXXX XX019",
+   "login": true
+  },
+  {
+   "id": "u11",
+   "name": "Officer K",
+   "av": "OK",
+   "c": "#5E7DAA",
+   "dg": "CDMA",
+   "dept": "CDMA – EAP section",
+   "prj": "ALL",
+   "mob": "+91 9XXXX XX020",
+   "login": true
+  },
+  {
+   "id": "u12",
+   "name": "Officer L",
+   "av": "OL",
+   "c": "#64707F",
+   "dg": "SYS",
+   "dept": "NIUM",
+   "prj": "ALL",
+   "mob": "+91 9XXXX XX021",
+   "login": true
+  },
+  {
+   "id": "u13",
+   "name": "Banker 1",
+   "av": "B1",
+   "c": "#8C857A",
+   "dg": "EXT",
+   "dept": "Bankers",
+   "prj": [
+    "P2"
+   ],
+   "mob": "+91 9XXXX XX022",
+   "login": false
+  },
+  {
+   "id": "u14",
+   "name": "Engineer 1",
+   "av": "E1",
+   "c": "#8C857A",
+   "dg": "EXT",
+   "dept": "Corporation 1",
+   "prj": [
+    "P1"
+   ],
+   "mob": "+91 9XXXX XX023",
+   "login": false
+  }
+ ],
+ "PROJECTS": [
+  {
+   "id": "P1",
+   "name": "Project 1",
+   "full": "Underground Drainage Scheme — City 1",
+   "c": "#2E5FA3",
+   "status": "Under execution",
+   "desc": "Laying of an underground drainage network with pumping stations and treatment units across four zones.",
+   "cost": 120,
+   "debtS": 90,
+   "debtD": 78,
+   "start": "2025-11-01",
+   "end": "2027-06-30",
+   "agency": "Agency 1",
+   "officers": [
+    [
+     "u4",
+     "Meeting Coordinator"
+    ],
+    [
+     "u7",
+     "Project Director"
+    ],
+    [
+     "u8",
+     "ULB Nodal Officer"
+    ],
+    [
+     "u14",
+     "Site engineer (external)"
+    ]
+   ],
+   "ulbs": [
+    {
+     "name": "ULB 1 — City 1 Municipal Corporation",
+     "code": "ULB-001",
+     "lead": true,
+     "nodal": "Officer H",
+     "contact": "+91 9XXXX XX017",
+     "wards": 52
+    },
+    {
+     "name": "ULB 4 — City 1 Outgrowth Municipality",
+     "code": "ULB-004",
+     "lead": false,
+     "nodal": "Officer H",
+     "contact": "+91 9XXXX XX017",
+     "wards": 18
+    }
+   ],
+   "docs": [
+    {
+     "id": "D-101",
+     "name": "Administrative sanction order",
+     "type": "Sanction order",
+     "file": "P1-sanction-order.pdf",
+     "size": "840 KB",
+     "by": "Officer C",
+     "date": "2025-10-14"
+    },
+    {
+     "id": "D-102",
+     "name": "Detailed Project Report, volume I",
+     "type": "DPR",
+     "file": "P1-DPR-vol1.pdf",
+     "size": "12.4 MB",
+     "by": "Officer D",
+     "date": "2025-10-28"
+    },
+    {
+     "id": "D-103",
+     "name": "Loan agreement with lender",
+     "type": "Agreement",
+     "file": "P1-loan-agreement.pdf",
+     "size": "2.1 MB",
+     "by": "Officer C",
+     "date": "2025-11-09"
+    },
+    {
+     "id": "D-104",
+     "name": "Zone A progress photographs, August",
+     "type": "Site photo",
+     "file": "P1-zoneA-aug.pdf",
+     "size": "6.8 MB",
+     "by": "Officer H",
+     "date": "2026-08-28"
+    }
+   ]
+  },
+  {
+   "id": "P2",
+   "name": "Project 2",
+   "full": "Water Supply Improvement Cluster — City 2",
+   "c": "#D9772B",
+   "status": "Under execution",
+   "desc": "Replacement of ageing water supply mains and construction of three overhead reservoirs.",
+   "cost": 85,
+   "debtS": 65,
+   "debtD": 55.25,
+   "start": "2026-01-15",
+   "end": "2027-09-30",
+   "agency": "Agency 2",
+   "officers": [
+    [
+     "u5",
+     "Meeting Coordinator"
+    ],
+    [
+     "u7",
+     "Project Director"
+    ],
+    [
+     "u9",
+     "ULB Nodal Officer"
+    ],
+    [
+     "u13",
+     "Lender representative (external)"
+    ]
+   ],
+   "ulbs": [
+    {
+     "name": "ULB 2 — City 2 Municipal Corporation",
+     "code": "ULB-002",
+     "lead": true,
+     "nodal": "Officer I",
+     "contact": "+91 9XXXX XX018",
+     "wards": 44
+    },
+    {
+     "name": "ULB 5 — City 2 Peri-urban Council",
+     "code": "ULB-005",
+     "lead": false,
+     "nodal": "Officer I",
+     "contact": "+91 9XXXX XX018",
+     "wards": 12
+    },
+    {
+     "name": "ULB 6 — City 2 Industrial Township",
+     "code": "ULB-006",
+     "lead": false,
+     "nodal": "Officer I",
+     "contact": "+91 9XXXX XX018",
+     "wards": 9
+    }
+   ],
+   "docs": [
+    {
+     "id": "D-201",
+     "name": "Administrative sanction order",
+     "type": "Sanction order",
+     "file": "P2-sanction-order.pdf",
+     "size": "760 KB",
+     "by": "Officer C",
+     "date": "2025-12-02"
+    },
+    {
+     "id": "D-202",
+     "name": "Detailed Project Report",
+     "type": "DPR",
+     "file": "P2-DPR.pdf",
+     "size": "9.7 MB",
+     "by": "Officer E",
+     "date": "2025-12-20"
+    },
+    {
+     "id": "D-203",
+     "name": "Third-party pipe quality report, batch 1",
+     "type": "Progress report",
+     "file": "P2-pipe-qa-b1.pdf",
+     "size": "1.3 MB",
+     "by": "Officer I",
+     "date": "2026-08-30"
+    }
+   ]
+  },
+  {
+   "id": "P3",
+   "name": "Project 3",
+   "full": "Smart Command & Control Centre — City 3",
+   "c": "#B2427A",
+   "status": "Procurement",
+   "desc": "An AI-enabled command and control centre integrating traffic, water and grievance systems.",
+   "cost": 60,
+   "debtS": 45,
+   "debtD": 39,
+   "start": "2026-03-01",
+   "end": "2027-12-31",
+   "agency": "Agency 3",
+   "officers": [
+    [
+     "u6",
+     "Meeting Coordinator"
+    ],
+    [
+     "u10",
+     "ULB Nodal Officer"
+    ],
+    [
+     "u11",
+     "CDMA — EAP oversight"
+    ]
+   ],
+   "ulbs": [
+    {
+     "name": "ULB 3 — City 3 Municipal Corporation",
+     "code": "ULB-003",
+     "lead": true,
+     "nodal": "Officer J",
+     "contact": "+91 9XXXX XX019",
+     "wards": 37
+    }
+   ],
+   "docs": [
+    {
+     "id": "D-301",
+     "name": "Administrative sanction order",
+     "type": "Sanction order",
+     "file": "P3-sanction-order.pdf",
+     "size": "690 KB",
+     "by": "Officer C",
+     "date": "2026-02-11"
+    },
+    {
+     "id": "D-302",
+     "name": "Hardware procurement tender, draft",
+     "type": "Other",
+     "file": "P3-tender-draft.pdf",
+     "size": "3.4 MB",
+     "by": "Officer F",
+     "date": "2026-08-22"
+    }
+   ]
+  }
+ ],
+ "DOC_TYPES": [
+  "Sanction order",
+  "DPR",
+  "Agreement",
+  "Progress report",
+  "Site photo",
+  "Signed MoM",
+  "Correspondence",
+  "Other"
+ ],
+ "CATEGORIES": [
+  "Weekly Progress Review",
+  "Review with Financier",
+  "Steering Committee",
+  "Technical / Coordination"
+ ],
+ "MEETINGS": [
+  {
+   "id": "M1",
+   "code": [
+    "UCF",
+    "HO",
+    "RM-01"
+   ],
+   "type": "scheduled",
+   "title": "Kick-off Review — All Projects",
+   "cat": "Steering Committee",
+   "date": "2026-08-18",
+   "start": "11:30",
+   "end": "13:00",
+   "venue": "Conference Hall, UCF Head Office",
+   "link": "https://meet.example.gov/ucf-kickoff",
+   "chair": "u1",
+   "by": "u3",
+   "prj": [
+    "P1",
+    "P2",
+    "P3"
+   ],
+   "stage": 8,
+   "momState": "signed",
+   "closed": true,
+   "freeze": "2026-08-17 11:30",
+   "confirmedBy": "u3",
+   "confirmedOn": "2026-08-13",
+   "agenda": [
+    {
+     "t": "Overall progress and fund utilisation of all three projects",
+     "p": null,
+     "by": "u3",
+     "att": 1
+    },
+    {
+     "t": "Zone A drainage works — target for September",
+     "p": "P1",
+     "by": "u4",
+     "att": 0
+    },
+    {
+     "t": "Water line replacement schedule",
+     "p": "P2",
+     "by": "u5",
+     "att": 1
+    },
+    {
+     "t": "Command centre — site readiness",
+     "p": "P3",
+     "by": "u6",
+     "att": 0
+    }
+   ],
+   "invitees": [
+    "u1",
+    "u2",
+    "u3",
+    "u4",
+    "u5",
+    "u6",
+    "u7",
+    "u8",
+    "u9",
+    "u10",
+    "u14"
+   ],
+   "attend": {
+    "u1": "P",
+    "u2": "V",
+    "u3": "P",
+    "u4": "P",
+    "u5": "P",
+    "u6": "V",
+    "u7": "P",
+    "u8": "P",
+    "u9": "P",
+    "u10": "A",
+    "u14": "P"
+   },
+   "minutes": "<h3>Kick-off Review — All Projects · 18 August 2026</h3><p>The <b>Mission Director</b> reviewed the progress of all three UCF projects and directed that every commitment made in this meeting be entered in the tracker with a named officer and a deadline.</p><ol><li><b>Project 1:</b> Pipeline laying in Zone A is behind schedule. Agency 1 to <mark>deploy an extra work crew by 25 August</mark>.</li><li><b>Project 2:</b> Road-cutting permissions pending with Corporation 2. To be escalated if not cleared within a week.</li><li><b>Project 3:</b> Hardware procurement tender to be published by the first week of September.</li></ol>",
+   "docs": [
+    {
+     "id": "MD-101",
+     "name": "Consolidated progress deck",
+     "type": "Progress report",
+     "file": "RM01-progress-deck.pdf",
+     "size": "4.2 MB",
+     "by": "Officer C",
+     "date": "2026-08-17"
+    },
+    {
+     "id": "MD-102",
+     "name": "Attendance sheet, scanned",
+     "type": "Correspondence",
+     "file": "RM01-attendance.pdf",
+     "size": "620 KB",
+     "by": "Officer C",
+     "date": "2026-08-18"
+    }
+   ],
+   "signed": {
+    "file": "MoM_UCF-HO-RM-01_signed.pdf",
+    "size": "1.8 MB",
+    "by": "Officer C",
+    "date": "2026-08-20",
+    "pages": 7,
+    "dispatch": [
+     [
+      "Officer A",
+      "Email + WhatsApp",
+      "Delivered",
+      "Yes"
+     ],
+     [
+      "Officer B",
+      "Email + WhatsApp",
+      "Delivered",
+      "Yes"
+     ],
+     [
+      "Officer C",
+      "Email + WhatsApp",
+      "Delivered",
+      "Yes"
+     ],
+     [
+      "Officer D",
+      "Email + WhatsApp",
+      "Delivered",
+      "Yes"
+     ],
+     [
+      "Officer E",
+      "Email + WhatsApp",
+      "Delivered",
+      "No"
+     ],
+     [
+      "Officer J",
+      "Email only",
+      "Delivered",
+      "No"
+     ],
+     [
+      "Engineer 1",
+      "WhatsApp",
+      "Failed ×3 — number invalid",
+      "—"
+     ],
+     [
+      "Officer G",
+      "Email + WhatsApp",
+      "Delivered",
+      "Yes"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "M5",
+   "code": [
+    "UCF",
+    "P1",
+    "IM-01"
+   ],
+   "type": "instant",
+   "title": "Trench collapse at Zone A — immediate review",
+   "cat": "Technical / Coordination",
+   "date": "2026-08-24",
+   "start": "16:40",
+   "end": "17:20",
+   "venue": "Video conference",
+   "link": "https://meet.example.gov/ucf-p1-im01",
+   "chair": "u3",
+   "by": "u4",
+   "prj": [
+    "P1"
+   ],
+   "stage": 8,
+   "momState": "signed",
+   "closed": true,
+   "agenda": [
+    {
+     "t": "What happened at chainage 1400 and who was on site",
+     "p": "P1",
+     "by": "u4",
+     "att": 1
+    },
+    {
+     "t": "Immediate barricading and pumping arrangement",
+     "p": "P1",
+     "by": "u4",
+     "att": 0
+    }
+   ],
+   "invitees": [
+    "u3",
+    "u4",
+    "u7",
+    "u8",
+    "u14"
+   ],
+   "attend": {
+    "u3": "P",
+    "u4": "P",
+    "u7": "V",
+    "u8": "P",
+    "u14": "P"
+   },
+   "minutes": "<h3>Trench collapse at Zone A · 24 August 2026 · instant meeting</h3><p>Called by the Meeting Coordinator forty minutes after the incident was reported. No injuries. The trench at chainage 1400 had been open for <mark>six days against the 72-hour limit</mark>.</p><p>Agency 1 to barricade and dewater the same evening and submit an incident note within 48 hours.</p>",
+   "docs": [
+    {
+     "id": "MD-501",
+     "name": "Incident photographs",
+     "type": "Site photo",
+     "file": "IM01-incident.pdf",
+     "size": "3.1 MB",
+     "by": "Officer H",
+     "date": "2026-08-24"
+    }
+   ],
+   "signed": {
+    "file": "MoM_UCF-P1-IM-01_signed.pdf",
+    "size": "420 KB",
+    "by": "Officer D",
+    "date": "2026-08-25",
+    "pages": 2,
+    "dispatch": [
+     [
+      "Officer C",
+      "Email + WhatsApp",
+      "Delivered",
+      "Yes"
+     ],
+     [
+      "Officer D",
+      "Email + WhatsApp",
+      "Delivered",
+      "Yes"
+     ],
+     [
+      "Officer G",
+      "Email + WhatsApp",
+      "Delivered",
+      "Yes"
+     ],
+     [
+      "Officer H",
+      "Email + WhatsApp",
+      "Delivered",
+      "Yes"
+     ],
+     [
+      "Engineer 1",
+      "WhatsApp",
+      "Delivered",
+      "No"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "M2",
+   "code": [
+    "UCF",
+    "P2",
+    "RM-02"
+   ],
+   "type": "scheduled",
+   "title": "Progress Review — Project 2",
+   "cat": "Weekly Progress Review",
+   "date": "2026-08-26",
+   "start": "16:00",
+   "end": "17:15",
+   "venue": "Video conference",
+   "link": "https://meet.example.gov/ucf-p2-rm02",
+   "chair": "u2",
+   "by": "u5",
+   "prj": [
+    "P2"
+   ],
+   "stage": 8,
+   "momState": "submitted",
+   "freeze": "2026-08-25 16:00",
+   "confirmedBy": "u5",
+   "confirmedOn": "2026-08-24",
+   "agenda": [
+    {
+     "t": "Review of previous action items (2 open)",
+     "p": "P2",
+     "by": "system",
+     "att": 0,
+     "carry": true
+    },
+    {
+     "t": "Road-cutting permission — escalation to Corporation 2",
+     "p": "P2",
+     "by": "u5",
+     "att": 1
+    },
+    {
+     "t": "Quality audit findings on the first batch of pipes",
+     "p": "P2",
+     "by": "u9",
+     "att": 1
+    },
+    {
+     "t": "Drawdown schedule and debt servicing — lender review",
+     "p": "P2",
+     "by": "u13",
+     "att": 0
+    }
+   ],
+   "invitees": [
+    "u2",
+    "u3",
+    "u5",
+    "u7",
+    "u9",
+    "u13"
+   ],
+   "attend": {
+    "u2": "P",
+    "u3": "P",
+    "u5": "P",
+    "u7": "V",
+    "u9": "P",
+    "u13": "A"
+   },
+   "minutes": "<h3>Progress Review — Project 2 · 26 August 2026</h3><p><b>Item 1 — Road-cutting permissions.</b> The file has been pending with Corporation 2 for three weeks. The Chair directed escalation to the Commissioner’s office with a copy to the Mission Director, and set a hard deadline of 5 September.</p><p><b>Item 2 — Quality checks on delivered pipes.</b> The third-party laboratory report is expected by 8 September. Consignment 2 is not to be accepted until the report on consignment 1 is cleared.</p>",
+   "docs": [
+    {
+     "id": "MD-201",
+     "name": "Lender drawdown statement, August",
+     "type": "Progress report",
+     "file": "RM02-drawdown.pdf",
+     "size": "900 KB",
+     "by": "Officer E",
+     "date": "2026-08-25"
+    }
+   ],
+   "momHistory": [
+    [
+     "ok",
+     "Minutes drafted",
+     "Officer E · 26 Aug, 18:20"
+    ],
+    [
+     "ok",
+     "v1 submitted for approval",
+     "Officer E · 27 Aug, 09:40"
+    ],
+    [
+     "ok",
+     "Returned — no owner named on action 5",
+     "Officer A · 27 Aug, 14:05"
+    ],
+    [
+     "ok",
+     "v2 submitted for approval",
+     "Officer E · 28 Aug, 11:02"
+    ],
+    [
+     "now",
+     "Approval",
+     "Officer A — pending 4 days"
+    ],
+    [
+     "wait",
+     "Signature and upload",
+     "Officer E"
+    ],
+    [
+     "wait",
+     "Circulation",
+     "System — email + WhatsApp"
+    ]
+   ]
+  },
+  {
+   "id": "M3",
+   "code": [
+    "UCF",
+    "P1",
+    "RM-04"
+   ],
+   "type": "scheduled",
+   "title": "Monthly Review — Project 1",
+   "cat": "Technical / Coordination",
+   "date": "2026-08-27",
+   "start": "11:00",
+   "end": "12:30",
+   "venue": "Conference Hall, UCF Head Office",
+   "link": "https://meet.example.gov/ucf-p1-rm04",
+   "chair": "u3",
+   "by": "u4",
+   "prj": [
+    "P1"
+   ],
+   "stage": 7,
+   "momState": "draft",
+   "freeze": "2026-08-26 11:00",
+   "confirmedBy": "u4",
+   "confirmedOn": "2026-08-24",
+   "agenda": [
+    {
+     "t": "Review of previous action items (3 open)",
+     "p": "P1",
+     "by": "system",
+     "att": 0,
+     "carry": true
+    },
+    {
+     "t": "Zone A pipeline — revised completion target after the extra crew",
+     "p": "P1",
+     "by": "u3",
+     "att": 1
+    },
+    {
+     "t": "Land acquisition status for the second pumping station",
+     "p": "P1",
+     "by": "u4",
+     "att": 0
+    },
+    {
+     "t": "Monsoon contingency plan for open trenches",
+     "p": "P1",
+     "by": "u4",
+     "att": 2
+    }
+   ],
+   "invitees": [
+    "u1",
+    "u3",
+    "u4",
+    "u5",
+    "u8",
+    "u11",
+    "u14"
+   ],
+   "attend": {
+    "u1": "V",
+    "u3": "P",
+    "u4": "P",
+    "u5": "V",
+    "u8": "P",
+    "u11": "A",
+    "u14": "P"
+   },
+   "minutes": "<h3>Monthly Review — Project 1 · UCF/P1/RM-04 · 27 August 2026</h3><p><b>Chair:</b> Officer C (PDMC). Attendance recorded separately.</p><h3>Item 0 — Review of previous action items</h3><p>Of the three items carried forward from UCF/HO/RM-01, ACT-02 has been reported complete and is <mark>awaiting Mission Director confirmation</mark>. ACT-01 has also been reported complete and sits with the PDMC. ACT-03 continues on schedule.</p><h3>Item 1 — Zone A pipeline, revised completion target</h3><p>Agency 1 confirmed the additional crew was deployed on 24 August. Progress since is <b>410 m against a target of 380 m</b>. The chair accepted a revised completion target of <u>31 October 2026</u>, subject to the monsoon contingency below.</p><h3>Item 2 — Land acquisition, second pumping station</h3><p>Corporation 1 issued the clearance letter dated 29 August. The mutation record is still to be obtained.</p><h3>Item 3 — Monsoon contingency</h3><p>The chair directed that <mark>no trench is to be left open beyond 72 hours</mark>, with weekly inspection and photographs uploaded to the portal.</p>",
+   "docs": [
+    {
+     "id": "MD-301",
+     "name": "Zone A weekly progress note",
+     "type": "Progress report",
+     "file": "RM04-zoneA-note.pdf",
+     "size": "412 KB",
+     "by": "Officer C",
+     "date": "2026-08-26"
+    },
+    {
+     "id": "MD-302",
+     "name": "Monsoon contingency working sheet",
+     "type": "Other",
+     "file": "RM04-monsoon.xlsx",
+     "size": "88 KB",
+     "by": "Officer D",
+     "date": "2026-08-26"
+    }
+   ]
+  },
+  {
+   "id": "M6",
+   "code": [
+    "UCF",
+    "P3",
+    "IM-02"
+   ],
+   "type": "instant",
+   "title": "Tender clarification call — command centre hardware",
+   "cat": "Technical / Coordination",
+   "date": "2026-08-31",
+   "start": "15:10",
+   "end": "15:50",
+   "venue": "Video conference",
+   "link": "https://meet.example.gov/ucf-p3-im02",
+   "chair": "u6",
+   "by": "u6",
+   "prj": [
+    "P3"
+   ],
+   "stage": 7,
+   "momState": "none",
+   "agenda": [
+    {
+     "t": "Two bidder queries on the hardware specification",
+     "p": "P3",
+     "by": "u6",
+     "att": 1
+    }
+   ],
+   "invitees": [
+    "u6",
+    "u10",
+    "u11"
+   ],
+   "attend": {
+    "u6": "P",
+    "u10": "P",
+    "u11": "V"
+   },
+   "minutes": "<h3>Tender clarification call · 31 August 2026 · instant meeting</h3><p>Two bidders sought clarity on the redundancy requirement for the video wall controller. Agreed to issue a corrigendum rather than answer individually.</p>",
+   "docs": []
+  },
+  {
+   "id": "M4",
+   "code": [
+    "UCF",
+    "HO",
+    "RM-03"
+   ],
+   "type": "scheduled",
+   "title": "Joint Review — Projects 2 & 3",
+   "cat": "Review with Financier",
+   "date": "2026-09-05",
+   "start": "15:00",
+   "end": "16:30",
+   "venue": "Video conference",
+   "link": "",
+   "chair": "u1",
+   "by": "u3",
+   "prj": [
+    "P2",
+    "P3"
+   ],
+   "stage": 4,
+   "momState": "none",
+   "freeze": "2026-09-04 15:00",
+   "agenda": [
+    {
+     "t": "Review of previous action items (3 open)",
+     "p": null,
+     "by": "system",
+     "att": 0,
+     "carry": true
+    },
+    {
+     "t": "Water line replacement — progress against the revised schedule",
+     "p": "P2",
+     "by": "u5",
+     "att": 0
+    },
+    {
+     "t": "Command centre — hardware procurement tender status",
+     "p": "P3",
+     "by": "u6",
+     "att": 1
+    },
+    {
+     "t": "Drawdown schedule and debt servicing — lender review",
+     "p": null,
+     "by": "u13",
+     "att": 0
+    }
+   ],
+   "invitees": [
+    "u1",
+    "u2",
+    "u3",
+    "u5",
+    "u6",
+    "u7",
+    "u9",
+    "u10",
+    "u11",
+    "u13"
+   ],
+   "attend": {},
+   "minutes": "",
+   "docs": [],
+   "rsvp": {
+    "u1": "yes",
+    "u2": "yes",
+    "u3": "yes",
+    "u5": "yes",
+    "u6": "yes",
+    "u7": "tentative",
+    "u9": "yes",
+    "u10": "",
+    "u11": "",
+    "u13": "yes"
+   }
+  },
+  {
+   "id": "M7",
+   "code": [
+    "UCF",
+    "P1",
+    "RM-05"
+   ],
+   "type": "scheduled",
+   "title": "5th Review Meeting — Project 1",
+   "cat": "Weekly Progress Review",
+   "date": "2026-09-17",
+   "start": "11:00",
+   "end": "12:30",
+   "venue": "Conference Hall, UCF Head Office",
+   "link": "",
+   "chair": "u1",
+   "by": "u4",
+   "prj": [
+    "P1"
+   ],
+   "stage": 1,
+   "momState": "none",
+   "agenda": [],
+   "invitees": [
+    "u3",
+    "u4",
+    "u8"
+   ],
+   "attend": {},
+   "minutes": "",
+   "docs": []
+  }
+ ],
+ "ITEMS": [
+  {
+   "id": "ACT-01",
+   "type": "action",
+   "m": "M1",
+   "p": "P1",
+   "desc": "Deploy one additional work crew for Zone A pipeline laying",
+   "raised": "u1",
+   "owners": [
+    "u8",
+    "u14"
+   ],
+   "due": "2026-08-25",
+   "pri": "High",
+   "status": "Under Review",
+   "rem": "Crew deployed on 24 Aug. Reported complete by Officer H — awaiting PDMC confirmation.",
+   "hist": [
+    [
+     "2026-08-18 11:52",
+     "Created from UCF/HO/RM-01, item 2",
+     "Officer C"
+    ],
+    [
+     "2026-08-20 15:33",
+     "Activated on MoM circulation",
+     "System"
+    ],
+    [
+     "2026-08-24 18:02",
+     "Status In Progress → Under Review",
+     "Officer H"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-02",
+   "type": "action",
+   "m": "M1",
+   "p": "P1",
+   "desc": "Obtain land clearance for pumping station 2 from Corporation 1",
+   "raised": "u1",
+   "owners": [
+    "u4"
+   ],
+   "due": "2026-08-30",
+   "pri": "Very High",
+   "status": "Under Review",
+   "rem": "Clearance letter received on 29 Aug and filed. Requesting closure.",
+   "hist": [
+    [
+     "2026-08-18 11:55",
+     "Created from UCF/HO/RM-01, item 2",
+     "Officer C"
+    ],
+    [
+     "2026-08-22 09:10",
+     "Remark added",
+     "Officer D"
+    ],
+    [
+     "2026-08-29 17:12",
+     "Status In Progress → Under Review",
+     "Officer D"
+    ],
+    [
+     "2026-08-30 10:40",
+     "First sign-off recorded",
+     "Officer C"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-03",
+   "type": "action",
+   "m": "M1",
+   "p": "P1",
+   "desc": "Upload weekly photographs of drainage work from the field every Friday",
+   "raised": "u3",
+   "owners": [
+    "u8"
+   ],
+   "due": "2026-09-30",
+   "pri": "Medium",
+   "status": "In Progress",
+   "rem": "Uploaded on 28 Aug. Next upload due 4 Sep.",
+   "hist": [
+    [
+     "2026-08-18 12:01",
+     "Created",
+     "Officer C"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-04",
+   "type": "action",
+   "m": "M1",
+   "p": "P2",
+   "desc": "Obtain road-cutting permissions for water line replacement from Corporation 2",
+   "raised": "u1",
+   "owners": [
+    "u5",
+    "u9"
+   ],
+   "due": "2026-08-25",
+   "pri": "High",
+   "status": "Delayed",
+   "rem": "File pending with Corporation 2 for three weeks. Escalated on 26 Aug with a hard deadline of 5 Sep.",
+   "hist": [
+    [
+     "2026-08-18 12:04",
+     "Created",
+     "Officer C"
+    ],
+    [
+     "2026-08-26 00:05",
+     "Status In Progress → Delayed · deadline passed",
+     "System"
+    ],
+    [
+     "2026-08-26 16:40",
+     "Escalated in UCF/P2/RM-02",
+     "Officer B"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-05",
+   "type": "action",
+   "m": "M1",
+   "p": "P2",
+   "desc": "Complete third-party quality checks on the first batch of delivered pipes",
+   "raised": "u2",
+   "owners": [
+    "u9"
+   ],
+   "due": "2026-09-08",
+   "pri": "Medium",
+   "status": "In Progress",
+   "rem": "Laboratory engaged; report expected by 8 Sep.",
+   "hist": [
+    [
+     "2026-08-18 12:06",
+     "Created",
+     "Officer C"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-06",
+   "type": "action",
+   "m": "M1",
+   "p": "P2",
+   "desc": "Share the updated work schedule with the head office",
+   "raised": "u3",
+   "owners": [
+    "u5"
+   ],
+   "due": "2026-08-22",
+   "pri": "Low",
+   "status": "Completed",
+   "rem": "Shared on 21 Aug and confirmed.",
+   "hist": [
+    [
+     "2026-08-18 12:08",
+     "Created",
+     "Officer C"
+    ],
+    [
+     "2026-08-21 14:20",
+     "Reported complete",
+     "Officer E"
+    ],
+    [
+     "2026-08-22 09:00",
+     "Confirmed as completed",
+     "Officer C"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-07",
+   "type": "action",
+   "m": "M1",
+   "p": "P3",
+   "desc": "Publish the hardware procurement tender for the command centre",
+   "raised": "u1",
+   "owners": [
+    "u6",
+    "u11"
+   ],
+   "due": "2026-09-07",
+   "pri": "High",
+   "status": "In Progress",
+   "rem": "Draft tender under legal review; corrigendum on the video wall spec to follow.",
+   "hist": [
+    [
+     "2026-08-18 12:11",
+     "Created",
+     "Officer C"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-08",
+   "type": "action",
+   "m": "M1",
+   "p": "P3",
+   "desc": "Confirm site readiness and power supply for the command centre building",
+   "raised": "u3",
+   "owners": [
+    "u10"
+   ],
+   "due": "2026-08-20",
+   "pri": "Medium",
+   "status": "Completed",
+   "rem": "Site inspection done on 19 Aug; confirmed by the PDMC.",
+   "hist": [
+    [
+     "2026-08-18 12:13",
+     "Created",
+     "Officer C"
+    ],
+    [
+     "2026-08-19 16:30",
+     "Reported complete",
+     "Officer J"
+    ],
+    [
+     "2026-08-20 11:15",
+     "Confirmed as completed",
+     "Officer C"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-09",
+   "type": "action",
+   "m": "M1",
+   "p": "P1",
+   "desc": "Prepare a one-page progress note for the district collector",
+   "raised": "u1",
+   "owners": [
+    "u11"
+   ],
+   "due": "2026-09-15",
+   "pri": "Lower",
+   "status": "In Progress",
+   "rem": "",
+   "hist": [
+    [
+     "2026-08-18 12:15",
+     "Created",
+     "Officer C"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-10",
+   "type": "action",
+   "m": "M5",
+   "p": "P1",
+   "desc": "Barricade and dewater the open trench at chainage 1400 the same evening",
+   "raised": "u3",
+   "owners": [
+    "u8",
+    "u14"
+   ],
+   "due": "2026-08-24",
+   "pri": "Very High",
+   "status": "Completed",
+   "rem": "Completed by 21:40 on 24 Aug. Photographs uploaded.",
+   "hist": [
+    [
+     "2026-08-24 17:15",
+     "Created from the instant meeting",
+     "Officer D"
+    ],
+    [
+     "2026-08-24 21:52",
+     "Reported complete",
+     "Officer H"
+    ],
+    [
+     "2026-08-25 09:05",
+     "Confirmed as completed",
+     "Officer C"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-11",
+   "type": "action",
+   "m": "M5",
+   "p": "P1",
+   "desc": "Submit a written incident note with root cause and preventive measures",
+   "raised": "u3",
+   "owners": [
+    "u8"
+   ],
+   "due": "2026-08-26",
+   "pri": "High",
+   "status": "Delayed",
+   "rem": "Not received. Chased twice.",
+   "hist": [
+    [
+     "2026-08-24 17:18",
+     "Created from the instant meeting",
+     "Officer D"
+    ],
+    [
+     "2026-08-27 00:05",
+     "Status In Progress → Delayed · deadline passed",
+     "System"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-12",
+   "type": "action",
+   "m": "M3",
+   "p": "P1",
+   "desc": "Submit a week-by-week pipe-laying schedule up to 31 October",
+   "raised": "u3",
+   "owners": [
+    "u4",
+    "u8"
+   ],
+   "due": "2026-09-10",
+   "pri": "High",
+   "status": "In Progress",
+   "rem": "",
+   "hist": [
+    [
+     "2026-08-27 12:20",
+     "Created from UCF/P1/RM-04, item 1",
+     "Officer D"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-13",
+   "type": "action",
+   "m": "M3",
+   "p": "P1",
+   "desc": "Obtain the mutation record and hand over the pumping station site to Agency 1",
+   "raised": "u3",
+   "owners": [
+    "u4"
+   ],
+   "due": "2026-09-17",
+   "pri": "Very High",
+   "status": "In Progress",
+   "rem": "",
+   "hist": [
+    [
+     "2026-08-27 12:24",
+     "Created from UCF/P1/RM-04, item 2",
+     "Officer D"
+    ]
+   ]
+  },
+  {
+   "id": "ACT-14",
+   "type": "action",
+   "m": "M3",
+   "p": "P1",
+   "desc": "Inspect, barricade and photograph every open trench each Friday",
+   "raised": "u3",
+   "owners": [
+    "u8",
+    "u14"
+   ],
+   "due": "2026-09-30",
+   "pri": "High",
+   "status": "In Progress",
+   "rem": "Chair’s direction: no trench open beyond 72 hours.",
+   "hist": [
+    [
+     "2026-08-27 12:29",
+     "Created from UCF/P1/RM-04, item 3",
+     "Officer D"
+    ]
+   ]
+  },
+  {
+   "id": "CLA-01",
+   "type": "clarification",
+   "m": "M1",
+   "p": "P2",
+   "desc": "Whether the old pipes removed during replacement can be auctioned",
+   "raised": "u5",
+   "respBy": "u3",
+   "status": "Responded",
+   "rem": "Finance advises they may be auctioned through the ULB store; a formal circular is awaited before disposal.",
+   "hist": [
+    [
+     "2026-08-18 12:20",
+     "Raised in UCF/HO/RM-01",
+     "Officer E"
+    ],
+    [
+     "2026-08-25 10:00",
+     "Responded",
+     "Officer C"
+    ]
+   ]
+  },
+  {
+   "id": "CLA-02",
+   "type": "clarification",
+   "m": "M1",
+   "p": "P1",
+   "desc": "Whether Zone B works can start before Zone A is finished",
+   "raised": "u4",
+   "respBy": "",
+   "status": "Open",
+   "rem": "To be decided after seeing September progress.",
+   "hist": [
+    [
+     "2026-08-18 12:22",
+     "Raised in UCF/HO/RM-01",
+     "Officer D"
+    ]
+   ]
+  },
+  {
+   "id": "CLA-03",
+   "type": "clarification",
+   "m": "M2",
+   "p": "P2",
+   "desc": "Whether the lender will accept quarterly rather than monthly drawdown reporting",
+   "raised": "u13",
+   "respBy": "u2",
+   "status": "Closed",
+   "rem": "Lender confirmed quarterly reporting is acceptable from Q3 onward, with a monthly one-page summary.",
+   "hist": [
+    [
+     "2026-08-26 16:50",
+     "Raised in UCF/P2/RM-02",
+     "Banker 1"
+    ],
+    [
+     "2026-08-28 11:30",
+     "Responded",
+     "Officer B"
+    ],
+    [
+     "2026-08-29 09:15",
+     "Closed",
+     "Officer E"
+    ]
+   ]
+  },
+  {
+   "id": "CLA-04",
+   "type": "clarification",
+   "m": "M3",
+   "p": "P1",
+   "desc": "Whether trench barricading cost is met from the contingency head or needs a separate sanction",
+   "raised": "u3",
+   "respBy": "",
+   "status": "Open",
+   "rem": "Finance opinion to be taken before the next review.",
+   "hist": [
+    [
+     "2026-08-27 12:34",
+     "Raised in UCF/P1/RM-04",
+     "Officer D"
+    ]
+   ]
+  },
+  {
+   "id": "CLA-05",
+   "type": "clarification",
+   "m": "M6",
+   "p": "P3",
+   "desc": "Whether a corrigendum resets the tender submission deadline",
+   "raised": "u6",
+   "respBy": "u11",
+   "status": "Responded",
+   "rem": "Yes — a specification corrigendum extends the deadline by seven days under the procurement manual.",
+   "hist": [
+    [
+     "2026-08-31 15:30",
+     "Raised in the instant meeting",
+     "Officer F"
+    ],
+    [
+     "2026-08-31 17:10",
+     "Responded",
+     "Officer K"
+    ]
+   ]
+  }
+ ]
+}

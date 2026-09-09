@@ -1,0 +1,95 @@
+# Development dependencies only. Nothing here is a production topology —
+# see docs/10-DEPLOYMENT.md for that.
+#
+#   pnpm db:up    -> docker compose up -d
+#   pnpm db:down  -> docker compose down
+#   pnpm db:reset -> docker compose down -v && docker compose up -d
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ucf-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ucf
+      POSTGRES_PASSWORD: ucf_dev_only
+      POSTGRES_DB: mom_tracker
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ucf -d mom_tracker']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: ucf-redis
+    restart: unless-stopped
+    command: ['redis-server', '--appendonly', 'yes']
+    ports:
+      - '6379:6379'
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # S3-compatible object storage. Uploads never touch the app filesystem,
+  # in dev or anywhere else.
+  minio:
+    image: minio/minio:latest
+    container_name: ucf-minio
+    restart: unless-stopped
+    command: ['server', '/data', '--console-address', ':9001']
+    environment:
+      MINIO_ROOT_USER: ucf_minio
+      MINIO_ROOT_PASSWORD: ucf_minio_dev_only
+    ports:
+      - '9000:9000'   # S3 API
+      - '9001:9001'   # console
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ['CMD', 'mc', 'ready', 'local']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # Creates the bucket once, then exits. Idempotent.
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 ucf_minio ucf_minio_dev_only &&
+      mc mb --ignore-existing local/ucf-files &&
+      mc anonymous set none local/ucf-files &&
+      echo 'bucket ucf-files ready'
+      "
+
+  # Catches every outbound email in development. Web UI on :8025.
+  # No mail leaves the machine — which is the point while the email
+  # provider is still undecided.
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: ucf-mailpit
+    restart: unless-stopped
+    ports:
+      - '1025:1025'   # SMTP
+      - '8025:8025'   # web UI
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+volumes:
+  pgdata:
+  redisdata:
+  miniodata:
