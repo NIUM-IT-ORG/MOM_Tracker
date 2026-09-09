@@ -17,6 +17,7 @@ Read in this order.
 | 10 | [Deployment](10-DEPLOYMENT.md) | Topology, environments, release, backup, go-live checklist |
 | 11 | [Handover](11-HANDOVER.md) | What was frozen, what shipped in this pack, what is deferred and why |
 | 12 | [Phase 0 report](12-PHASE-0-REPORT.md) | **Read before Phase 1.** What was built and verified, three decisions taken, two traps already found |
+| 13 | [Phase 0 review](13-PHASE-0-REVIEW.md) | Independent re-verification of every Phase 0 claim, and ten findings — two of which stop the API booting |
 
 ## The reference build
 
